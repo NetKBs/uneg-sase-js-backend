@@ -177,3 +177,4 @@ dist
 # Prisma
 prisma/migrations/
 prisma/*.db-journal
+prisma/*.db
