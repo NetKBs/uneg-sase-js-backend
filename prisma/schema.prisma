@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int       @id @default(autoincrement())
+  username String    @unique
+  password String
+  role     Role      @relation(fields: [roleId], references: [id])
+  roleId   Int
+  Student  Student[]
+  Teacher  Teacher[]
+}
+
+model Student {
+  id             Int          @id @default(autoincrement())
+  user           User         @relation(fields: [userId], references: [id])
+  userId         Int
+  personalData   PersonalData @relation(fields: [personalDataId], references: [id])
+  personalDataId Int
+}
+
+model Teacher {
+  id             Int          @id @default(autoincrement())
+  user           User         @relation(fields: [userId], references: [id])
+  userId         Int
+  personalData   PersonalData @relation(fields: [personalDataId], references: [id])
+  personalDataId Int
+}
+
+model PersonalData {
+  id             Int        @id @default(autoincrement())
+  name           String
+  secondName     String
+  lastName       String
+  secondLastName String
+  gender         Gender     @relation(fields: [genderId], references: [id])
+  genderId       Int
+  bornDate       String
+  ic             Int
+  civilState     CivilState @relation(fields: [civilStateId], references: [id])
+  civilStateId   Int
+  email          String
+  altEmail       String
+  phone          Int
+  altPhone       Int
+  borthCity      String
+  borthState     String
+  borthCountry   String
+  houseDir       String
+  jobDir         String
+
+  Student Student[]
+  Teacher Teacher[]
+}
+
+model AcademicData {
+  id        Int     @id @default(autoincrement())
+  active    Boolean
+  unegEmail String
+  campus    Campus  @relation(fields: [campuesId], references: [id])
+  campuesId Int
+  career    Career  @relation(fields: [careerId], references: [id])
+  careerId  Int
+}
+
+// User relate auxiliars models
+
+model Role {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  User User[]
+}
+
+model CivilState {
+  id           Int            @id @default(autoincrement())
+  name         String         @unique
+  PersonalData PersonalData[]
+}
+
+model Gender {
+  id           Int            @id @default(autoincrement())
+  name         String         @unique
+  PersonalData PersonalData[]
+}
+
+// Academic relate auxiliars models
+
+model Campus {
+  id           Int            @id @default(autoincrement())
+  name         String         @unique
+  AcademicData AcademicData[]
+}
+
+model Career {
+  id           Int            @id @default(autoincrement())
+  name         String         @unique
+  AcademicData AcademicData[]
+}
