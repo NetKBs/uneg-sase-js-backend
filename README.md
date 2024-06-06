@@ -16,6 +16,9 @@ Este repositorio constituye el segmento de servidor y base de datos de nuestro p
 cuyo objetivo es sustituir el sitio web de servicios estudiantiles de la
 Universidad Nacional Experimental de Guayana, el cual no satisface los requerimientos de los alumnos.
 
+Escrito para usarse junto al frontend:
+[Gabo-div/uneg-sase-frontend](https://github.com/Gabo-div/uneg-sase-frontend)
+
 ## Tecnologías
 
 - JavaScript
@@ -50,7 +53,7 @@ Inicia el servidor de desarrollo
 ```
 
 Una vez iniciado, se puede acceder desde la siguiente dirección en un navegador:
-[http://localhost:3000](http://localhost:3000)
+[localhost:3000](http://localhost:3000)
 
 <!-- ## Contribuciones -->
 <!---->
@@ -59,7 +62,7 @@ Una vez iniciado, se puede acceder desde la siguiente dirección en un navegador
 
 **¡Gracias a todos los colaboradores!**
 
-[![Contribuidores](https://contrib.rocks/image?repo=NetKBs/uneg-sase-js-backend)](contributors-url)
+[![Contribuidores](https://contrib.rocks/image?repo=NetKBs/uneg-sase-js-backend)][contributors-url]
 
 [contributors-shield]: https://img.shields.io/github/contributors/NetKBs/uneg-sase-js-backend.svg?style=for-the-badge
 [contributors-url]: https://github.com/NetKBs/uneg-sase-js-backend/graphs/contributors
