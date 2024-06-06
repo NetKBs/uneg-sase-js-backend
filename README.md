@@ -27,7 +27,7 @@ Universidad Nacional Experimental de Guayana, el cual no satisface los requerimi
 Clona el proyecto
 
 ```bash
-  git clone https://github.com/Gabo-div/uneg-sase-js-backend
+  git clone https://github.com/NetKBs/uneg-sase-js-backend
 ```
 
 Accede a la ruta del proyecto
@@ -58,15 +58,15 @@ Una vez iniciado, se puede acceder desde la siguiente dirección en un navegador
 
 **¡Gracias a todos los colaboradores!**
 
-[![Contribuidores](https://contrib.rocks/image?repo=Gabo-div/uneg-sase-js-backend)](contributors-url)
+[![Contribuidores](https://contrib.rocks/image?repo=NetKBs/uneg-sase-js-backend)](contributors-url)
 
-[contributors-shield]: https://img.shields.io/github/contributors/Gabo-div/uneg-sase-js-backend.svg?style=for-the-badge
-[contributors-url]: https://github.com/Gabo-div/uneg-sase-js-backend/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/Gabo-div/uneg-sase-js-backend.svg?style=for-the-badge
-[forks-url]: https://github.com/Gabo-div/uneg-sase-js-backend/network/members
-[stars-shield]: https://img.shields.io/github/stars/Gabo-div/uneg-sase-js-backend.svg?style=for-the-badge
-[stars-url]: https://github.com/Gabo-div/uneg-sase-js-backend/stargazers
-[pr-shield]: https://img.shields.io/github/issues-pr-closed/Gabo-div/uneg-sase-js-backend.svg?style=for-the-badge
-[pr-url]: https://github.com/Gabo-div/uneg-sase-js-backend/pulls
-[issues-shield]: https://img.shields.io/github/issues/Gabo-div/uneg-sase-js-backend.svg?style=for-the-badge
-[issues-url]: https://github.com/Gabo-div/uneg-sase-js-backend/issues
+[contributors-shield]: https://img.shields.io/github/contributors/NetKBs/uneg-sase-js-backend.svg?style=for-the-badge
+[contributors-url]: https://github.com/NetKBs/uneg-sase-js-backend/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/NetKBs/uneg-sase-js-backend.svg?style=for-the-badge
+[forks-url]: https://github.com/NetKBs/uneg-sase-js-backend/network/members
+[stars-shield]: https://img.shields.io/github/stars/NetKBs/uneg-sase-js-backend.svg?style=for-the-badge
+[stars-url]: https://github.com/NetKBs/uneg-sase-js-backend/stargazers
+[pr-shield]: https://img.shields.io/github/issues-pr-closed/NetKBs/uneg-sase-js-backend.svg?style=for-the-badge
+[pr-url]: https://github.com/NetKBs/uneg-sase-js-backend/pulls
+[issues-shield]: https://img.shields.io/github/issues/NetKBs/uneg-sase-js-backend.svg?style=for-the-badge
+[issues-url]: https://github.com/NetKBs/uneg-sase-js-backend/issues
