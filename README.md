@@ -22,7 +22,6 @@ Universidad Nacional Experimental de Guayana, el cual no satisface los requerimi
 - TypeScript
 - Bun
 - Prisma
-<!-- - Node.js -->
 
 ## Ejecución
 
