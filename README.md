@@ -20,6 +20,8 @@ Universidad Nacional Experimental de Guayana, el cual no satisface los requerimi
 
 - JavaScript
 - TypeScript
+- Bun
+- Prisma
 <!-- - Node.js -->
 
 ## Ejecución
