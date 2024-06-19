@@ -1,4 +1,4 @@
-import { User } from "@/domain/models/user";
+import { DBUser } from "@/domain/models/user";
 import { UserRepository } from "@/domain/repositories/userRepository";
 
 export class UserFinder {
@@ -8,11 +8,11 @@ export class UserFinder {
 		this.userRepository = userRepository;
 	}
 
-	async findById(id: number): Promise<User | null> {
+	async findById(id: number): Promise<DBUser | null> {
 		return this.userRepository.getById(id);
 	}
 
-	async findByUsername(username: string): Promise<User | null> {
+	async findByUsername(username: string): Promise<DBUser | null> {
 		return this.userRepository.getByUsername(username);
 	}
 }
