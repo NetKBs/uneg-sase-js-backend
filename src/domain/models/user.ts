@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { studentSchema } from "./student";
 import { teacherSchema } from "./teacher";
+import { adminSchema } from "./admin";
 
 export const userSchema = z.object({
 	id: z.number(),
@@ -16,6 +17,11 @@ export const userSchema = z.object({
 				role: z.literal("teacher"),
 			})
 			.merge(teacherSchema),
+		z
+			.object({
+				role: z.literal("admin"),
+			})
+			.merge(adminSchema),
 	]),
 });
 
