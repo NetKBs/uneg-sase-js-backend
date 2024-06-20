@@ -1,5 +1,5 @@
 import { Context } from "hono";
-import { ResponseStatus, createResponse } from "./createResponse";
+import { ResponseStatus, createResponse } from "@/utils/createResponse";
 import { HTTPException } from "hono/http-exception";
 import { StatusCode } from "hono/utils/http-status";
 
@@ -61,6 +61,8 @@ export const errorHandler = (
 	error: Error,
 	_c: Context,
 ): Response | Promise<Response> => {
+	console.error(error);
+
 	if (!(error instanceof HTTPException)) {
 		return createResponse(ResponseStatus.INTERNAL_SERVER_ERROR, {
 			data: null,

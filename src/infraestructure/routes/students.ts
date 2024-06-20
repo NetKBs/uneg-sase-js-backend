@@ -4,6 +4,7 @@ import { ResponseStatus, createResponse } from "@/utils/createResponse";
 import { userCreator, userFinder } from "../dependencies";
 import { createStudentSchema } from "../validators/users";
 import { HTTPException } from "hono/http-exception";
+import { authValidator } from "@/infraestructure/helpers/authValidator";
 
 const students = new Hono();
 
@@ -11,6 +12,8 @@ students.post(
 	"/students",
 	zValidator("json", createStudentSchema),
 	async (c) => {
+		await authValidator(userFinder, c, "admin");
+
 		const newStudentData = c.req.valid("json");
 
 		const alreadyExistingUser = await userFinder.findByUsername(
@@ -23,7 +26,16 @@ students.post(
 			});
 		}
 
-		const createdUser = await userCreator.createStudent(newStudentData);
+		const hashedPassword = await Bun.password.hash(newStudentData.password, {
+			algorithm: "bcrypt",
+			cost: 10,
+		});
+
+		const createdUser = await userCreator.createStudent({
+			username: newStudentData.username,
+			data: newStudentData.data,
+			password: hashedPassword,
+		});
 
 		if (!createdUser) {
 			throw new HTTPException(ResponseStatus.INTERNAL_SERVER_ERROR, {
@@ -39,7 +51,19 @@ students.post(
 	},
 );
 
+students.get("/students/me", async (c) => {
+	const user = await authValidator(userFinder, c, "student");
+
+	const { password, ...userWithoutPassword } = user;
+
+	return createResponse(ResponseStatus.OK, {
+		data: userWithoutPassword,
+	});
+});
+
 students.get("/students/:id", async (c) => {
+	await authValidator(userFinder, c, "admin");
+
 	const id = c.req.param("id");
 
 	const numberId = parseInt(id);
@@ -58,8 +82,10 @@ students.get("/students/:id", async (c) => {
 		});
 	}
 
+	const { password, ...userWithoutPassword } = user;
+
 	return createResponse(ResponseStatus.OK, {
-		data: user,
+		data: userWithoutPassword,
 	});
 });
 
