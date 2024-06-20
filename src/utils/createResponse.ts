@@ -1,3 +1,5 @@
+import { Context } from "hono";
+
 export enum ResponseStatus {
 	OK = 200,
 	CREATED = 201,
@@ -42,4 +44,13 @@ export const createResponse = (
 			},
 		},
 	);
+};
+
+export const createContextResponse = (
+	c: Context,
+	status: ResponseStatus,
+	body: Body,
+) => {
+	c.status(status);
+	return c.json(body);
 };
