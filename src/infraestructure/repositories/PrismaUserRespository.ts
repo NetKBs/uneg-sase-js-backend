@@ -1,8 +1,9 @@
-import { DBUser } from "@/domain/models/user";
+import { DBUser, DBUserStudent } from "@/domain/models/user";
 import { UserRepository } from "@/domain/repositories/userRepository";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { PrismaUserAdapter } from "../adapters/PrismaUserAdapter";
 import { Student } from "@/domain/models/student";
+import { PartialDeep } from "type-fest";
 
 export default class PrismaUserRespository implements UserRepository {
 	private prisma: PrismaClient;
@@ -154,5 +155,118 @@ export default class PrismaUserRespository implements UserRepository {
 		});
 
 		return this.adapter.adaptUserData(prismaUser);
+	}
+
+	async updateStudentById(
+		id: number,
+		newData: PartialDeep<DBUserStudent>,
+	): Promise<DBUserStudent | null> {
+		const user = await this.prisma.user.findUnique({
+			where: {
+				id,
+			},
+			include: this.prismaUserInclude,
+		});
+
+		if (!user || user.role.name !== "student" || !user.Student) {
+			return null;
+		}
+
+		const newStudentData = newData as PartialDeep<DBUserStudent>;
+		const newStatus = newData?.data?.academicData?.status;
+
+		const updatedUser = await this.prisma.user.update({
+			where: {
+				id: user.id,
+			},
+			data: {
+				username: newData?.username,
+				password: newData?.password,
+				Student: {
+					update: {
+						where: {
+							id: user.Student.id,
+						},
+						data: {
+							personalData: {
+								update: {
+									where: {
+										id: user.Student.personalData.id,
+									},
+									data: {
+										name: newData?.data?.personalData?.name,
+										secondName: newData?.data?.personalData?.secondName,
+										lastName: newData?.data?.personalData?.lastName,
+										secondLastName: newData?.data?.personalData?.secondLastName,
+										gender: {
+											connect: {
+												name:
+													newData?.data?.personalData?.gender ||
+													user.Student.personalData.gender.name,
+											},
+										},
+										birthDate: newData?.data?.personalData?.birthDate,
+										ic: newData?.data?.personalData?.ic,
+										maritalStatus: {
+											connect: {
+												name:
+													newData?.data?.personalData?.maritalStatus ||
+													user.Student.personalData.maritalStatus.name,
+											},
+										},
+										email: newData?.data?.contactData?.email,
+										altEmail: newData?.data?.contactData?.alternativeEmail,
+										phone: newData?.data?.contactData?.phoneNumber,
+										altPhone:
+											newData?.data?.contactData?.alternativePhoneNumber,
+										birthState: newData?.data?.personalData?.birthState,
+										birthCity: newData?.data?.personalData?.birthCity,
+										birthCountry: newData?.data?.personalData?.birthCountry,
+										houseAddress: newData?.data?.contactData?.houseAddress,
+										workAddress: newData?.data?.contactData?.workAddress,
+									},
+								},
+							},
+							academicData: {
+								update: {
+									where: {
+										id: user.Student.academicData?.id,
+									},
+									data: {
+										active:
+											newStatus === undefined
+												? undefined
+												: newStatus === "active",
+										unegEmail:
+											newStudentData?.data?.contactData?.universityEmail,
+										...(newStudentData?.data?.academicData?.campus
+											? {
+													campus: {
+														connect: {
+															name: newStudentData?.data?.academicData?.campus,
+														},
+													},
+												}
+											: {}),
+										...(newStudentData?.data?.academicData?.career
+											? {
+													career: {
+														connect: {
+															name: newStudentData?.data?.academicData?.career,
+														},
+													},
+												}
+											: {}),
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			include: this.prismaUserInclude,
+		});
+
+		return this.adapter.adaptUserData(updatedUser) as DBUserStudent;
 	}
 }

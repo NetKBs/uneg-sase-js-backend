@@ -32,3 +32,21 @@ export const dbUserSchema = userSchema.extend({
 });
 
 export type DBUser = z.infer<typeof dbUserSchema>;
+
+export type DBUserStudent = DBUser & {
+	data: {
+		role: "student";
+	};
+};
+
+export type DBUserTeacher = DBUser & {
+	data: {
+		role: "teacher";
+	};
+};
+
+export type DBUserAdmin = DBUser & {
+	data: {
+		role: "admin";
+	};
+};

@@ -15,3 +15,12 @@ export const createStudentSchema = z.object({
 		}),
 	}),
 });
+
+export const updateStudentSchema = z.object({
+	data: z
+		.object({
+			personalData: personalDataSchema.partial(),
+			contactData: contactDataSchema.partial(),
+		})
+		.partial(),
+});

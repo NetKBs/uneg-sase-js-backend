@@ -1,8 +1,8 @@
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { ResponseStatus, createResponse } from "@/utils/createResponse";
-import { userCreator, userFinder } from "../dependencies";
-import { createStudentSchema } from "../validators/users";
+import { userCreator, userFinder, userUpdater } from "../dependencies";
+import { createStudentSchema, updateStudentSchema } from "../validators/users";
 import { HTTPException } from "hono/http-exception";
 import { authValidator } from "@/infraestructure/helpers/authValidator";
 
@@ -88,5 +88,48 @@ students.get("/students/:id", async (c) => {
 		data: userWithoutPassword,
 	});
 });
+
+students.patch(
+	"/students/:id",
+	zValidator("json", updateStudentSchema),
+	async (c) => {
+		await authValidator(userFinder, c, "admin");
+
+		const id = c.req.param("id");
+		const numberId = parseInt(id);
+
+		if (isNaN(numberId)) {
+			throw new HTTPException(ResponseStatus.BAD_REQUEST, {
+				message: "Invalid id",
+			});
+		}
+
+		const user = await userFinder.findById(numberId);
+
+		if (!user || user.data.role !== "student") {
+			throw new HTTPException(ResponseStatus.NOT_FOUND, {
+				message: "Student not found",
+			});
+		}
+
+		const newUserData = c.req.valid("json");
+		const updatedUser = await userUpdater.updateStudentById(
+			numberId,
+			newUserData,
+		);
+
+		if (!updatedUser) {
+			throw new HTTPException(ResponseStatus.INTERNAL_SERVER_ERROR, {
+				message: "An error occurred while updating the student",
+			});
+		}
+
+		const { password, ...userWithoutPassword } = updatedUser;
+
+		return createResponse(ResponseStatus.OK, {
+			data: userWithoutPassword,
+		});
+	},
+);
 
 export default students;
